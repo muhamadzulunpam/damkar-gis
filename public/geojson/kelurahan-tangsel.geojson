@@ -1,0 +1,317 @@
+fetch('/geojson/kelurahan-tangsel.geojson')
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error(
+                'GeoJSON tidak ditemukan.'
+            );
+        }
+
+        return response.json();
+
+    })
+    .then(data => {
+
+        L.geoJSON(data, {
+
+            style: function(feature) {
+
+                const properties =
+                    feature.properties || {};
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Nama dari GeoJSON BIG
+                |--------------------------------------------------------------------------
+                |
+                | Berdasarkan struktur layer BIG:
+                |
+                | WADMKD = Kelurahan
+                | WADMKC = Kecamatan
+                |
+                */
+
+                const namaKelurahan =
+                    properties.WADMKD
+                    || properties.wadmkd
+                    || properties.nama
+                    || properties.NAMA
+                    || '';
+
+
+                const namaKecamatan =
+                    properties.WADMKC
+                    || properties.wadmkc
+                    || properties.kecamatan
+                    || properties.KECAMATAN
+                    || '';
+
+
+                const hasil =
+                    cariKerawanan(
+                        namaKelurahan,
+                        namaKecamatan
+                    );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | WARNA WILAYAH
+                |--------------------------------------------------------------------------
+                */
+
+                return {
+
+                    fillColor:
+                        hasil
+                            ? hasil.warna
+                            : '#adb5bd',
+
+                    fillOpacity:
+                        hasil
+                            ? 0.60
+                            : 0.20,
+
+                    color: '#ffffff',
+
+                    weight: 1,
+
+                };
+
+            },
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | EVENT SETIAP WILAYAH
+            |--------------------------------------------------------------------------
+            */
+
+            onEachFeature:
+                function(feature, layer) {
+
+                    const properties =
+                        feature.properties || {};
+
+
+                    const namaKelurahan =
+                        properties.WADMKD
+                        || properties.wadmkd
+                        || properties.nama
+                        || properties.NAMA
+                        || '';
+
+
+                    const namaKecamatan =
+                        properties.WADMKC
+                        || properties.wadmkc
+                        || properties.kecamatan
+                        || properties.KECAMATAN
+                        || '';
+
+
+                    const hasil =
+                        cariKerawanan(
+                            namaKelurahan,
+                            namaKecamatan
+                        );
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | HOVER
+                    |--------------------------------------------------------------------------
+                    */
+
+                    layer.on({
+
+                        mouseover: function(e) {
+
+                            e.target.setStyle({
+
+                                weight: 3,
+
+                                color: '#212529',
+
+                                fillOpacity: 0.8
+
+                            });
+
+                        },
+
+
+                        mouseout: function(e) {
+
+                            e.target.setStyle({
+
+                                weight: 1,
+
+                                color: '#ffffff',
+
+                                fillOpacity:
+                                    hasil
+                                        ? 0.60
+                                        : 0.20
+
+                            });
+
+                        }
+
+                    });
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | POPUP
+                    |--------------------------------------------------------------------------
+                    */
+
+                    let popup = `
+
+                        <div
+                            style="
+                                min-width: 240px;
+                            "
+                        >
+
+                            <h6 class="fw-bold mb-2">
+
+                                ${namaKelurahan}
+
+                            </h6>
+
+                            <div class="text-muted mb-3">
+
+                                Kecamatan
+                                ${namaKecamatan}
+
+                            </div>
+
+                    `;
+
+
+                    if (hasil) {
+
+                        popup += `
+
+                            <div class="mb-2">
+
+                                <strong>
+                                    Tingkat Kerawanan
+                                </strong>
+
+                                <div
+                                    class="mt-1"
+                                    style="
+                                        display:inline-block;
+                                        padding:4px 10px;
+                                        border-radius:20px;
+                                        color:white;
+                                        background:${hasil.warna};
+                                    "
+                                >
+
+                                    ${hasil.tingkat_kerawanan}
+
+                                </div>
+
+                            </div>
+
+
+                            <hr>
+
+
+                            <div>
+
+                                <strong>
+                                    Jumlah Kejadian
+                                </strong>
+
+                                <br>
+
+                                ${hasil.jumlah_kejadian}
+
+                            </div>
+
+
+                            <div class="mt-2">
+
+                                <strong>
+                                    Jumlah Korban
+                                </strong>
+
+                                <br>
+
+                                ${hasil.jumlah_korban}
+
+                            </div>
+
+
+                            <div class="mt-2">
+
+                                <strong>
+                                    Total Kerugian
+                                </strong>
+
+                                <br>
+
+                                Rp ${Number(
+                                    hasil.total_kerugian
+                                ).toLocaleString('id-ID')}
+
+                            </div>
+
+
+                            <div class="mt-2">
+
+                                <strong>
+                                    Cluster
+                                </strong>
+
+                                <br>
+
+                                Cluster ${hasil.cluster}
+
+                            </div>
+
+                        `;
+
+                    } else {
+
+                        popup += `
+
+                            <div class="text-muted">
+
+                                Belum terdapat data
+                                kejadian untuk wilayah ini.
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    popup += `
+
+                        </div>
+
+                    `;
+
+
+                    layer.bindPopup(popup);
+
+                }
+
+        }).addTo(map);
+
+    })
+    .catch(error => {
+
+        console.error(
+            'Gagal memuat GeoJSON:',
+            error
+        );
+
+    });
