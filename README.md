@@ -1,58 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Damkar GIS — Sistem Informasi Geografis Pemadam Kebakaran
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi Sistem Informasi Geografis (GIS) untuk mendukung pengelolaan data kejadian kebakaran dan penyelamatan serta analisis tingkat kerawanan wilayah di Kota Tangerang Selatan.
 
-## About Laravel
+Proyek ini dikembangkan menggunakan Laravel dengan integrasi pemetaan wilayah dan algoritma **K-Means Clustering untuk mengelompokkan tingkat kerawanan menjadi tiga kategori: Tinggi, Sedang, dan Rendah.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tentang Proyek
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Damkar GIS dirancang untuk membantu pengelolaan informasi kejadian kebakaran dan penyelamatan, memvisualisasikan persebaran kejadian berdasarkan wilayah, serta menyajikan hasil analisis kerawanan dalam bentuk yang lebih mudah dipahami.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Sistem ini juga menyediakan pengelolaan data berdasarkan peran pengguna dan laporan analisis berdasarkan periode yang dipilih.
 
-## Learning Laravel
+## Fitur Utama
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Dashboard — Menampilkan ringkasan informasi kejadian dan data sistem.
+- Manajemen Pengguna — Mengelola akun dan hak akses pengguna.
+- Manajemen Wilayah — Mengelola data kecamatan dan kelurahan.
+- Manajemen Jenis Kejadian — Mengelola kategori kejadian kebakaran dan penyelamatan.
+- Manajemen Kejadian — Mengelola data kejadian kebakaran dan penyelamatan.
+- Peta Kerawanan — Memvisualisasikan tingkat kerawanan berdasarkan wilayah geografis.
+- Analisis K-Means — Mengelompokkan kelurahan ke dalam kategori kerawanan Tinggi, Sedang, dan Rendah.
+- Laporan Analisis — Menampilkan ringkasan hasil analisis berdasarkan periode yang dipilih.
+- Ekspor Laporan — Mengunduh laporan dalam format PDF dan Excel.
+- Activity Log — Mencatat aktivitas pengguna untuk membantu penelusuran aktivitas sistem.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Metode Analisis
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Aplikasi menggunakan algoritma **K-Means Clustering** untuk mengelompokkan wilayah berdasarkan data yang digunakan dalam proses analisis.
 
-## Agentic Development
+Hasil pengelompokan disajikan dalam tiga tingkat kerawanan:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Kategori | Keterangan |
+| Tinggi | Kelurahan yang masuk ke kelompok kerawanan tinggi |
+| Sedang | Kelurahan yang masuk ke kelompok kerawanan sedang |
+| Rendah | Kelurahan yang masuk ke kelompok kerawanan rendah |
 
-```bash
-composer require laravel/boost --dev
+Hasil analisis digunakan untuk mendukung visualisasi peta kerawanan dan penyusunan laporan. Tingkat kerawanan merupakan hasil pengelompokan relatif terhadap data yang dianalisis, bukan prediksi pasti terjadinya kejadian.
 
-php artisan boost:install
-```
+## Hak Akses Pengguna
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+| Role | Hak Akses Utama |
+| Admin | Mengelola pengguna, data master, data kejadian, peta, dan melihat hasil analisis |
+| Petugas | Mengelola data kejadian serta melihat informasi wilayah dan peta |
+| Pimpinan | Melihat informasi wilayah, peta kerawanan, hasil analisis, dan laporan |
 
-## Contributing
+Hak akses mengikuti konfigurasi otorisasi yang diterapkan di dalam aplikasi.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Teknologi yang Digunakan
 
-## Code of Conduct
+- Backend: PHP, Laravel
+- Database: MySQL
+- Frontend: Blade, HTML, CSS, JavaScript, Bootstrap
+- Geographic Information System: Peta wilayah dan visualisasi tingkat kerawanan
+- Data Mining: Algoritma K-Means Clustering
+- Ekspor Dokumen: DomPDF dan Laravel Excel
+- Version Control: Git dan GitHub
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Persyaratan Sistem
 
-## Security Vulnerabilities
+Pastikan perangkat pengembangan sudah memiliki:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- PHP 8.3 atau versi yang kompatibel dengan proyek
+- Composer
+- MySQL
+- Git
 
-## License
+Versi dependency yang digunakan mengikuti konfigurasi proyek di `composer.json` dan `package.json`.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Instalasi dan Menjalankan Aplikasi
+
+### 1. Clone repository
+
+git clone https://github.com/muhamadzulunpam/damkar-gis.git
+cd damkar-gis
+
+
+### 2. Install dependency backend
+
+composer install
+
+
+### 3. Siapkan file environment
+
+Salin file .env.example menjadi .env.
+
+cp .env.example .env
+
+
+Pada Windows, kamu juga bisa menyalin file tersebut secara manual melalui File Explorer.
+
+### 4. Buat application key
+
+php artisan key:generate
+
+
+### 5. Konfigurasi database
+
+Buat database MySQL untuk proyek ini, kemudian sesuaikan konfigurasi berikut di file .env:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=damkar_gis
+DB_USERNAME=root
+DB_PASSWORD=
+
+Sesuaikan nama database, username, dan password dengan konfigurasi MySQL lokal kamu.
+
+### 6. Jalankan migrasi database
+
+php artisan migrate
+
+
+Jika proyek memerlukan data awal, jalankan seeder yang tersedia sesuai konfigurasi proyek.
+
+Catatan: Pastikan database sudah dibuat dan struktur tabel yang dibutuhkan tersedia sebelum menjalankan aplikasi.
+
+### 8. Jalankan aplikasi
+
+Buka terminal:
+
+php artisan serve
+
+
+Akses aplikasi melalui:
+
+http://127.0.0.1:8000
+
+## aporan dan Visualisasi
+
+Hasil analisis K-Means yang telah tersimpan dapat digunakan untuk menampilkan peta kerawanan dan menyusun laporan berdasarkan periode yang dipilih.
+
+Laporan menyediakan ringkasan analisis untuk kejadian kebakaran dan penyelamatan, serta fasilitas ekspor PDF dan Excel.
+
+## Keamanan
+
+- Jangan mengunggah file .env atau kredensial rahasia ke repository publik.
+- Gunakan konfigurasi environment untuk menyimpan informasi sensitif.
+- Terapkan hak akses sesuai role pengguna.
+- Gunakan data yang sesuai dan valid saat melakukan analisis.
+
+## Tujuan Pengembangan
+
+Proyek ini dikembangkan sebagai implementasi pengembangan aplikasi web yang menggabungkan:
+
+- Pengelolaan data operasional.
+- Integrasi informasi geografis.
+- Penerapan algoritma data mining.
+- Visualisasi data untuk mendukung pengambilan keputusan.
+- Pembuatan laporan yang dapat digunakan sebagai dokumentasi analisis.
+
+## Developer
+
+Muhamad Zul Sa'ban
+
+Web Developer | Programmer
+
+- GitHub: [@muhamadzulunpam](https://github.com/muhamadzulunpam)
+
+Damkar GIS — Sistem Informasi Geografis untuk mendukung analisis kerawanan kebakaran dan penyelamatan di Kota Tangerang Selatan.
